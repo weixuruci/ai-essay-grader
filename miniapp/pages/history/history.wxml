@@ -1,0 +1,23 @@
+<view class="container">
+  <view class="section" wx:if="{{records.length===0}}">
+    <view class="empty">
+      <text class="empty-icon">📭</text>
+      <text class="empty-text">暂无批改记录</text>
+      <text class="empty-desc">批改后自动保存在这里</text>
+    </view>
+  </view>
+
+  <view wx:else>
+    <view class="record-card" wx:for="{{records}}" wx:key="id" bindtap="viewDetail" data-record="{{item}}">
+      <view class="record-left">
+        <text class="record-score {{item.score>=80?'good':''}} {{item.score<60?'bad':''}}">{{item.score}}</text>
+        <text class="record-unit">分</text>
+      </view>
+      <view class="record-right">
+        <text class="record-title">{{item.title}}</text>
+        <text class="record-summary">{{item.summary}}</text>
+        <text class="record-meta">{{item.grade}} · {{item.time}}</text>
+      </view>
+    </view>
+  </view>
+</view>

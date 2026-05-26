@@ -1,0 +1,18 @@
+{
+  "description": "AI作文批改小程序",
+  "packOptions": { "ignore": [] },
+  "setting": {
+    "urlCheck": true,
+    "es6": true,
+    "postcss": true,
+    "minified": false,
+    "enhance": true,
+    "showShadowRootInWxmlPanel": true
+  },
+  "compileType": "miniprogram",
+  "appid": "wx0b6cc730bd239391",
+  "projectname": "ai-essay-grader",
+  "miniprogramRoot": "miniapp/",
+  "cloudfunctionRoot": "cloudfunctions/",
+  "libVersion": "3.6.0"
+}

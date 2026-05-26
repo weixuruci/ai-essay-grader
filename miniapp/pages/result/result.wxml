@@ -1,0 +1,66 @@
+<view class="container">
+  <!-- 分数卡片 -->
+  <view class="score-card">
+    <view class="score-main">
+      <text class="score-num">{{result.score}}</text>
+      <text class="score-max">/100</text>
+    </view>
+    <text class="score-label">{{scoreLabel}}</text>
+    <view class="score-bar-wrap">
+      <view class="score-bar" style="width:{{result.score}}%"></view>
+    </view>
+  </view>
+
+  <!-- 总评 -->
+  <view class="section">
+    <view class="section-title">📋 总体评价</view>
+    <text class="summary-text">{{result.summary}}</text>
+    <text class="word-info">作文共 {{result.total_words}} 字</text>
+  </view>
+
+  <!-- 亮点 -->
+  <view class="section" wx:if="{{result.highlights && result.highlights.length}}">
+    <view class="section-title">✨ 亮点 ({{result.highlights.length}})</view>
+    <view class="highlight-item" wx:for="{{result.highlights}}" wx:key="*this">
+      <text class="highlight-dot">•</text>
+      <text>{{item}}</text>
+    </view>
+  </view>
+
+  <!-- 修改建议 -->
+  <view class="section" wx:if="{{result.issues && result.issues.length}}">
+    <view class="section-title">🔧 修改建议 ({{result.issues.length}}处)</view>
+    <view class="issue-card" wx:for="{{result.issues}}" wx:key="sentence">
+      <view class="issue-row">
+        <text class="issue-tag bad">原文</text>
+        <text class="issue-text">{{item.sentence}}</text>
+      </view>
+      <view class="issue-row">
+        <text class="issue-tag good">建议</text>
+        <text class="issue-text suggest">{{item.suggestion}}</text>
+      </view>
+      <view class="issue-reason">
+        <text>💡 {{item.reason}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 错别字 -->
+  <view class="section" wx:if="{{result.typos && result.typos.length}}">
+    <view class="section-title">❌ 错别字 ({{result.typos.length}}个)</view>
+    <view class="typo-list">
+      <view class="typo-item" wx:for="{{result.typos}}" wx:key="wrong">
+        <text class="typo-wrong">{{item.wrong}}</text>
+        <text class="typo-arrow">→</text>
+        <text class="typo-correct">{{item.correct}}</text>
+        <text class="typo-pos">（{{item.position}}）</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部 -->
+  <view class="actions">
+    <button class="btn-outline" bindtap="goBack">再批一篇</button>
+    <button class="btn-primary" open-type="share">分享给朋友</button>
+  </view>
+</view>
