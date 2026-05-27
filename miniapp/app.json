@@ -17,21 +17,15 @@
     "list": [
       {
         "pagePath": "pages/index/index",
-        "text": "批改",
-        "iconPath": "",
-        "selectedIconPath": ""
+        "text": "批改"
       },
       {
         "pagePath": "pages/errors/errors",
-        "text": "错题",
-        "iconPath": "",
-        "selectedIconPath": ""
+        "text": "错题"
       },
       {
         "pagePath": "pages/history/history",
-        "text": "记录",
-        "iconPath": "",
-        "selectedIconPath": ""
+        "text": "记录"
       }
     ]
   },
