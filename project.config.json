@@ -21,5 +21,9 @@
     "include": []
   },
   "appid": "wx0b6cc730bd239391",
-  "editorSetting": {}
+  "projectname": "ai-essay-grader",
+  "miniprogramRoot": "miniapp/",
+  "cloudfunctionRoot": "miniapp/cloudfunctions/",
+  "editorSetting": {},
+  "cloudfunctionTemplateRoot": "cloudfunctionTemplate/"
 }

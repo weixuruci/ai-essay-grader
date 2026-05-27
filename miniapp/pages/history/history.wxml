@@ -1,23 +1,79 @@
 <view class="container">
-  <view class="section" wx:if="{{records.length===0}}">
-    <view class="empty">
-      <text class="empty-icon">📭</text>
-      <text class="empty-text">暂无批改记录</text>
-      <text class="empty-desc">批改后自动保存在这里</text>
-    </view>
+  <!-- 视图切换 -->
+  <view class="view-toggle">
+    <view class="toggle-item {{viewMode==='list'?'active':''}}" bindtap="switchView" data-mode="list">列表</view>
+    <view class="toggle-item {{viewMode==='trend'?'active':''}}" bindtap="switchView" data-mode="trend">趋势</view>
   </view>
 
-  <view wx:else>
-    <view class="record-card" wx:for="{{records}}" wx:key="id" bindtap="viewDetail" data-record="{{item}}">
-      <view class="record-left">
-        <text class="record-score {{item.score>=80?'good':''}} {{item.score<60?'bad':''}}">{{item.score}}</text>
-        <text class="record-unit">分</text>
-      </view>
-      <view class="record-right">
-        <text class="record-title">{{item.title}}</text>
-        <text class="record-summary">{{item.summary}}</text>
-        <text class="record-meta">{{item.grade}} · {{item.time}}</text>
+  <!-- 筛选标签 -->
+  <scroll-view class="filter-bar" scroll-x>
+    <view class="filter-tag {{active===''?'active':''}}" wx:if="{{viewMode==='list'}}" bindtap="filter" data-subject="">全部 ({{counts.all}})</view>
+    <view class="filter-tag {{active==='语文'?'active':''}}" bindtap="filter" data-subject="语文">语文 ({{counts['语文']||0}})</view>
+    <view class="filter-tag {{active==='数学'?'active':''}}" bindtap="filter" data-subject="数学">数学 ({{counts['数学']||0}})</view>
+    <view class="filter-tag {{active==='英语'?'active':''}}" bindtap="filter" data-subject="英语">英语 ({{counts['英语']||0}})</view>
+    <view class="filter-tag {{active==='物理'?'active':''}}" bindtap="filter" data-subject="物理">物理 ({{counts['物理']||0}})</view>
+    <view class="filter-tag {{active==='化学'?'active':''}}" bindtap="filter" data-subject="化学">化学 ({{counts['化学']||0}})</view>
+  </scroll-view>
+
+  <!-- ====== 列表视图 ====== -->
+  <block wx:if="{{viewMode==='list'}}">
+    <view class="empty" wx:if="{{displayRecords.length===0}}">
+      <text class="empty-icon">📭</text>
+      <text class="empty-text">暂无记录</text>
+      <text class="empty-desc">{{active?'该学科还没有批改记录':'提交批改后自动保存'}}</text>
+    </view>
+
+    <view wx:else>
+      <view class="record-card" wx:for="{{displayRecords}}" wx:key="id" bindtap="viewDetail" bindlongpress="deleteRecord" data-record="{{item}}">
+        <view class="record-left">
+          <text class="record-score {{item.score>=80?'good':''}} {{item.score<60?'bad':''}}">{{item.score}}</text>
+          <text class="record-unit">分</text>
+        </view>
+        <view class="record-right">
+          <text class="record-title">{{item.title}}</text>
+          <text class="record-summary">{{item.summary}}</text>
+          <text class="record-meta">{{item.subject}} · {{item.grade}} · {{item.time}}</text>
+        </view>
       </view>
     </view>
-  </view>
+  </block>
+
+  <!-- ====== 趋势视图 ====== -->
+  <block wx:if="{{viewMode==='trend'}}">
+    <view class="empty" wx:if="{{!trendData || trendData.length===0}}">
+      <text class="empty-icon">📈</text>
+      <text class="empty-text">数据不足</text>
+      <text class="empty-desc">{{active?'该学科至少需要2次批改才能看趋势':'请选择学科查看趋势'}}</text>
+    </view>
+
+    <view wx:else class="trend-section">
+      <view class="trend-header">
+        <text class="trend-title">{{active||'全部'}} 分数走势</text>
+        <text class="trend-stats">
+          最高 <text class="stat-high">{{trendMax}}</text>
+          最低 <text class="stat-low">{{trendMin}}</text>
+          均分 <text class="stat-avg">{{trendAvg}}</text>
+        </text>
+      </view>
+
+      <!-- 柱状图 -->
+      <view class="chart">
+        <view class="chart-grid">
+          <view class="grid-line" style="bottom:80%"><text>80</text></view>
+          <view class="grid-line" style="bottom:60%"><text>60</text></view>
+          <view class="grid-line" style="bottom:40%"><text>40</text></view>
+          <view class="grid-line" style="bottom:20%"><text>20</text></view>
+        </view>
+        <view class="chart-bars">
+          <view class="bar-wrap" wx:for="{{trendData}}" wx:key="index" style="width:{{100/trendData.length}}%">
+            <view class="bar {{item.score>=80?'bar-good':item.score<60?'bar-bad':''}}"
+                  style="height:{{item.score}}%">
+            </view>
+            <text class="bar-label">{{item.score}}</text>
+            <text class="bar-date">{{item.date}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </block>
 </view>

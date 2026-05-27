@@ -1,44 +1,55 @@
 <view class="container">
-  <!-- 头部 -->
-  <view class="hero">
-    <text class="hero-icon">📝</text>
-    <text class="hero-title">AI 作文批改</text>
-    <text class="hero-desc">输入作文，秒出批改结果</text>
+  <!-- 拍照 / 相册 -->
+  <view class="photo-row">
+    <button class="photo-btn" bindtap="takePhoto">📷 拍照</button>
+    <button class="photo-btn" bindtap="pickImage">🖼 相册{{images.length?'('+images.length+')':''}}</button>
   </view>
 
-  <!-- 年级选择 -->
-  <view class="grade-row">
-    <view class="grade-item {{grade==='小学'?'active':''}}" bindtap="pickGrade" data-grade="小学">小学</view>
-    <view class="grade-item {{grade==='初中'?'active':''}}" bindtap="pickGrade" data-grade="初中">初中</view>
-    <view class="grade-item {{grade==='高中'?'active':''}}" bindtap="pickGrade" data-grade="高中">高中</view>
+  <!-- 图片预览 -->
+  <view class="preview-grid" wx:if="{{images.length}}">
+    <view class="preview-item" wx:for="{{images}}" wx:key="index">
+      <image class="preview-img" src="{{item.path}}" mode="aspectFill"/>
+      <view class="preview-remove" bindtap="removeImage" data-index="{{index}}">✕</view>
+      <text class="preview-num">{{index+1}}/{{images.length}}</text>
+    </view>
   </view>
 
-  <!-- 题目 -->
-  <input class="input-title" placeholder="作文题目（选填）" value="{{title}}" bindinput="onTitle" maxlength="30" />
+  <view class="divider">
+    <text class="divider-text">或直接输入文字</text>
+  </view>
 
-  <!-- 作文输入 -->
-  <view class="textarea-wrap">
+  <!-- 输入 -->
+  <view class="input-group">
     <textarea
-      class="textarea"
-      placeholder="请输入作文内容（至少50字）&#10;&#10;支持手写后拍照识别文字粘贴到这里"
+      class="input-essay"
+      placeholder="输入作业内容，支持文字批改。拍照上传则由AI直接看图识别..."
       value="{{essay}}"
       bindinput="onEssay"
       maxlength="5000"
       auto-height
     />
-    <view class="textarea-footer">
-      <text class="word-count {{essay.length<50?'warn':''}}">{{essay.length}}字</text>
-      <text class="word-hint">/ 至少50字</text>
+    <view class="word-count {{essay.length > 0 && essay.length < 10 ? 'warn' : ''}}">
+      {{essay.length}}/5000
+      <text wx:if="{{essay.length > 0 && essay.length < 10}}" class="warn-text">（至少10字）</text>
     </view>
   </view>
 
-  <!-- 提交按钮 -->
-  <button class="btn-primary" bindtap="submit" disabled="{{essay.length<50||loading}}" loading="{{loading}}">
-    {{loading ? 'AI 正在批改...' : '开始批改'}}
+  <!-- 提交 -->
+  <button class="submit-btn" bindtap="submit" loading="{{loading}}" disabled="{{loading}}">
+    {{loading ? 'AI批改中...' : '提交批改'}}
   </button>
 
-  <!-- 底部提示 -->
-  <view class="footer-tip">
-    <text>🆓 每天免费批改 1 次 · 仅需几秒</text>
+  <!-- 加载动画 -->
+  <view class="loading-card" wx:if="{{loading}}">
+    <view class="loading-spinner"></view>
+    <text class="loading-timer">已等待 {{elapsed}} 秒</text>
+    <text class="loading-tip">{{currentTip}}</text>
+    <view class="loading-dots">
+      <view class="dot {{elapsed >= 5 ? 'active' : ''}}"></view>
+      <view class="dot {{elapsed >= 15 ? 'active' : ''}}"></view>
+      <view class="dot {{elapsed >= 30 ? 'active' : ''}}"></view>
+      <view class="dot {{elapsed >= 45 ? 'active' : ''}}"></view>
+    </view>
+    <text class="loading-dot-label">识别中 → 分析中 → 批改中 → 生成结果</text>
   </view>
 </view>

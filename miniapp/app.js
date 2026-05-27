@@ -3,7 +3,7 @@ App({
     // 初始化云开发
     if (wx.cloud) {
       wx.cloud.init({
-        env: '你的云环境ID', // 开通云开发后在这里填写环境 ID
+        env: 'cloudbase-d4gf9jzfdf4ade596', // 开通云开发后在这里填写环境 ID
         traceUser: true
       })
     }
@@ -38,5 +38,47 @@ App({
 
   getRecords() {
     return wx.getStorageSync('grade_records') || []
+  },
+
+  deleteRecord(id) {
+    const records = wx.getStorageSync('grade_records') || []
+    const idx = records.findIndex(r => r.id === id)
+    if (idx !== -1) {
+      records.splice(idx, 1)
+      wx.setStorageSync('grade_records', records)
+    }
+    return records
+  },
+
+  // 错题本
+  saveErrors(subject, issues) {
+    if (!issues || !issues.length) return
+    const errors = wx.getStorageSync('error_book') || []
+    const now = new Date().toLocaleString()
+    issues.forEach(iss => {
+      errors.unshift({
+        id: Date.now() + Math.random(),
+        subject,
+        wrong: iss.sentence || '',
+        correct: iss.suggestion || '',
+        reason: iss.reason || '',
+        time: now
+      })
+    })
+    if (errors.length > 200) errors.length = 200
+    wx.setStorageSync('error_book', errors)
+  },
+
+  getErrors() {
+    return wx.getStorageSync('error_book') || []
+  },
+
+  deleteError(id) {
+    const errors = wx.getStorageSync('error_book') || []
+    const idx = errors.findIndex(e => e.id === id)
+    if (idx !== -1) {
+      errors.splice(idx, 1)
+      wx.setStorageSync('error_book', errors)
+    }
   }
 })

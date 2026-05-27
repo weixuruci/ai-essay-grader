@@ -115,3 +115,13 @@
   padding: 12px;
   text-align: center;
 }
+
+.essay-text {
+  font-size: 14px; line-height: 1.8; color: #6B7280;
+  white-space: pre-wrap; word-break: break-all;
+}
+
+.export-canvas {
+  position: fixed; left: -9999px; top: -9999px;
+  width: 375px; height: 600px;
+}

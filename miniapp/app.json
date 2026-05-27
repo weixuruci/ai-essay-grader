@@ -1,11 +1,12 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/result/result",
-    "pages/history/history"
+    "pages/errors/errors",
+    "pages/history/history",
+    "pages/result/result"
   ],
   "window": {
-    "navigationBarTitleText": "AI作文批改",
+    "navigationBarTitleText": "AI作业批改",
     "navigationBarBackgroundColor": "#4F46E5",
     "navigationBarTextStyle": "white",
     "backgroundColor": "#F3F4F6"
@@ -17,6 +18,12 @@
       {
         "pagePath": "pages/index/index",
         "text": "批改",
+        "iconPath": "",
+        "selectedIconPath": ""
+      },
+      {
+        "pagePath": "pages/errors/errors",
+        "text": "错题",
         "iconPath": "",
         "selectedIconPath": ""
       },

@@ -1,5 +1,5 @@
 {
-  "description": "AI作文批改小程序",
+  "description": "AI作业批改小程序",
   "packOptions": { "ignore": [] },
   "setting": {
     "urlCheck": true,
@@ -13,6 +13,6 @@
   "appid": "wx0b6cc730bd239391",
   "projectname": "ai-essay-grader",
   "miniprogramRoot": "miniapp/",
-  "cloudfunctionRoot": "cloudfunctions/",
+  "cloudfunctionRoot": "miniapp/cloudfunctions/",
   "libVersion": "3.6.0"
 }

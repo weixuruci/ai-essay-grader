@@ -1,0 +1,41 @@
+<view class="container">
+  <!-- 筛选 -->
+  <scroll-view class="filter-bar" scroll-x>
+    <view class="filter-tag {{active===''?'active':''}}" bindtap="filter" data-subject="">全部 ({{counts.all}})</view>
+    <view class="filter-tag {{active==='语文'?'active':''}}" bindtap="filter" data-subject="语文">语文 ({{counts['语文']||0}})</view>
+    <view class="filter-tag {{active==='数学'?'active':''}}" bindtap="filter" data-subject="数学">数学 ({{counts['数学']||0}})</view>
+    <view class="filter-tag {{active==='英语'?'active':''}}" bindtap="filter" data-subject="英语">英语 ({{counts['英语']||0}})</view>
+    <view class="filter-tag {{active==='物理'?'active':''}}" bindtap="filter" data-subject="物理">物理 ({{counts['物理']||0}})</view>
+    <view class="filter-tag {{active==='化学'?'active':''}}" bindtap="filter" data-subject="化学">化学 ({{counts['化学']||0}})</view>
+  </scroll-view>
+
+  <!-- 空 -->
+  <view class="empty" wx:if="{{displayErrors.length===0}}">
+    <text class="empty-icon">📖</text>
+    <text class="empty-text">{{active ? '该学科暂无错题' : '还没有错题记录'}}</text>
+    <text class="empty-desc">批改后错题自动收集到这里</text>
+  </view>
+
+  <!-- 错题列表 -->
+  <view wx:else>
+    <view class="error-card" wx:for="{{displayErrors}}" wx:key="id" bindlongpress="deleteError" data-id="{{item.id}}">
+      <view class="error-header">
+        <text class="error-subject">{{item.subject}}</text>
+        <text class="error-date">{{item.time}}</text>
+      </view>
+      <view class="error-body">
+        <view class="error-row">
+          <text class="error-tag bad">错</text>
+          <text class="error-text">{{item.wrong}}</text>
+        </view>
+        <view class="error-row">
+          <text class="error-tag good">正</text>
+          <text class="error-text correct">{{item.correct}}</text>
+        </view>
+      </view>
+      <view class="error-reason" wx:if="{{item.reason}}">
+        <text>💡 {{item.reason}}</text>
+      </view>
+    </view>
+  </view>
+</view>

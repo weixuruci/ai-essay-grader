@@ -15,7 +15,13 @@
   <view class="section">
     <view class="section-title">📋 总体评价</view>
     <text class="summary-text">{{result.summary}}</text>
-    <text class="word-info">作文共 {{result.total_words}} 字</text>
+    <text class="word-info">{{result.subject}} · {{result.grade}}</text>
+  </view>
+
+  <!-- 原文 -->
+  <view class="section" wx:if="{{result.essay}}">
+    <view class="section-title">📝 作业原文</view>
+    <text class="essay-text">{{result.essay}}</text>
   </view>
 
   <!-- 亮点 -->
@@ -61,6 +67,9 @@
   <!-- 底部 -->
   <view class="actions">
     <button class="btn-outline" bindtap="goBack">再批一篇</button>
-    <button class="btn-primary" open-type="share">分享给朋友</button>
+    <button class="btn-outline" bindtap="exportImage">保存图片</button>
   </view>
+
+  <!-- 导出用的隐藏 Canvas -->
+  <canvas type="2d" id="exportCanvas" class="export-canvas"></canvas>
 </view>
